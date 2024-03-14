@@ -1,0 +1,34 @@
+---
+import * as Common from "./common.mdx";
+import * as React from "./react.mdx";
+---
+
+<script>
+	const rawHeadings = document.querySelectorAll<HTMLHeadingElement>(
+		"[data-toc-content] h1, [data-toc-content] h2, [data-toc-content] h3, [data-toc-content] h4, [data-toc-content] h5, [data-toc-content] h6",
+	);
+
+	const headings = Array.from(rawHeadings).map((heading) => ({
+		level: parseInt(heading.tagName.slice(1)),
+		text: heading.innerText,
+		id: heading.id,
+	}));
+
+	const toc = document.querySelector<HTMLUListElement>("[data-toc]");
+
+	for (const heading of headings) {
+		const li = document.createElement("li");
+
+		li.innerText = heading.text;
+
+		toc?.appendChild(li);
+	}
+</script>
+
+<main data-toc-content>
+	<Common.Content />
+
+	<React.Content />
+</main>
+
+<ul data-toc></ul>
